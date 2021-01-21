@@ -1,0 +1,55 @@
+<div class="form-wrap" (submit)="onSubmit()">
+    <form #ngRegisterForm="ngForm" [formGroup]="registerForm">
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput placeholder="Placeholder" formControlName="username" required>
+                <mat-icon matSuffix>account_circle</mat-icon>
+                <mat-error *ngIf="registerForm.controls['username'].invalid">
+                    <div *ngIf="registerForm.controls['username'].hasError('required')">
+                        Username is a required filed
+                    </div>
+                    <div *ngIf="registerForm.controls['username'].hasError('userTaken')">
+                        This username is already exists
+                    </div>
+                </mat-error>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Placeholder" formControlName="password" required>
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="registerForm.controls['password'].invalid">
+                    <div *ngIf="registerForm.controls['password'].hasError('required')">
+                        Password is a required filed
+                    </div>
+                    <div *ngIf="registerForm.controls['password'].hasError('minlength')">
+                        Password must be 8 at char or more
+                    </div>
+                    <div *ngIf="registerForm.controls['password'].hasError('strongPassword')">
+                        Password must have at lest one capital letter ,one digit ,one non-alphanumeric char
+
+                    </div>
+                </mat-error>
+
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Password Confirm</mat-label>
+                <input matInput placeholder="Placeholder" formControlName="confirmPassword" required>
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="registerForm.controls['confirmPassword'].invalid">
+                    Passwords Don't Match
+                </mat-error>
+            </mat-form-field>
+        </p>
+        <button mat-raised-button color="primary" [disabled]="!registerForm.valid">Register Trainer</button>
+        <button type="button" mat-button color="primary" routerLink="/login">login</button>
+
+
+
+    </form>
+
+</div>

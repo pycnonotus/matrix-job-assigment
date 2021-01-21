@@ -11,7 +11,8 @@ namespace API.Helper
         public AutoMapperProfiles()
         {
             CreateMap<RegisterDto, AppUser>();
-           
+            CreateMap<AddHeroDto, Hero>().ForMember(d => d.CuretPower, o => o.MapFrom(s => s.Power))
+            .ForMember(d => d.StartingPower, o => o.MapFrom(s => s.Power));
         }
     }
 }

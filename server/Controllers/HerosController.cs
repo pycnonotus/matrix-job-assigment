@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Controllers
 {
-    public class HerosController : ControllerBase
+    public class HerosController : BaseApiController
     {
         private readonly UnitOfWork unitOfWork;
         public HerosController(UnitOfWork unitOfWork)
@@ -24,6 +24,7 @@ namespace Controllers
             await unitOfWork.HeroRepository.AddHero(addHeroDto, User.GetUsername());
             return await unitOfWork.ApplyChanges() ? Ok()
             : throw new HttpRequestException(" an unknown error has accorded ");//TODO: change to proper exception messsage 
+
         }
 
     }

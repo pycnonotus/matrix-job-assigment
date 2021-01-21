@@ -4,14 +4,16 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210121054104_nameFix")]
+    partial class nameFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,7 +101,7 @@ namespace api.Migrations
                     b.Property<double>("CuretPower")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("FirstTraining")
+                    b.Property<DateTime>("FirstTraining")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -113,7 +115,6 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TrainerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -258,9 +259,7 @@ namespace api.Migrations
                 {
                     b.HasOne("Entities.AppUser", "Trainer")
                         .WithMany("UserHeros")
-                        .HasForeignKey("TrainerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TrainerId");
 
                     b.Navigation("Trainer");
                 });

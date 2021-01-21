@@ -12,12 +12,14 @@ namespace Entities
         public string Name { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime FirstTraining { get; set; }
-        public string Color { get; set; }
+        public DateTime? FirstTraining { get; set; } = null;
+        public string SuitColor { get; set; }
         [Required]
         public double StartingPower { get; set; }
         public double CuretPower { get; set; }
         public AppUser Trainer { get; set; }
+        [Required]
+
         public String TrainerId { get; set; }
 
 

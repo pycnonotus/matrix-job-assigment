@@ -1,0 +1,45 @@
+:host {
+    display: flex;
+    height: 100%;
+}
+
+.form-wrap {
+    background-color: white;
+    padding: 1em;
+}
+
+p,
+form {
+    width: 100%;
+    text-align: center;
+}
+
+mat-form-field {
+    width: 100%;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+    .form-wrap {
+        width: 100%;
+    }
+     :host {
+        align-items: center;
+    }
+}
+
+@media screen and (min-width:601px) {
+    .form-wrap {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    form {
+        max-width: 600px;
+    }
+}
+
+button {
+    width: 100%
+}
