@@ -50,7 +50,7 @@ namespace Controllers
 
             var userDto = new UserDto
             {
-                Token = await tokenService.CreateToken(user),
+                Token =  tokenService.CreateToken(user),
 
             };
             return Ok(userDto);
@@ -75,7 +75,7 @@ namespace Controllers
             }
             var userDto = new UserDto
             {
-                Token = await tokenService.CreateToken(login),
+                Token = tokenService.CreateToken(login),
 
             };
             return Ok(userDto);

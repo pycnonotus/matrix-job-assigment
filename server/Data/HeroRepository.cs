@@ -10,7 +10,6 @@ namespace Data
     {
         private readonly IMapper mapper;
         private readonly DataContext context;
-        private readonly UserManager<AppUser> userManager;
         private readonly UserRepository userRepository;
         public HeroRepository(DataContext context, IMapper mapper)
         {

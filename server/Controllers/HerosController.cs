@@ -23,9 +23,7 @@ namespace Controllers
         {
             await unitOfWork.HeroRepository.AddHero(addHeroDto, User.GetUsername());
             return await unitOfWork.ApplyChanges() ? Ok()
-            : throw new HttpRequestException(" an unknown error has accorded ");
-
-
+            : throw new HttpRequestException(" an unknown error has accorded ");//TODO: change to proper exception messsage 
         }
 
     }

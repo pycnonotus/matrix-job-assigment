@@ -25,7 +25,7 @@ namespace API.Service
             );
         }
 
-        public async Task<string> CreateToken(AppUser user)
+        public string CreateToken(AppUser user)
         {
             var claims = new List<Claim> {
                 new Claim (JwtRegisteredClaimNames.NameId, user.Id.ToString()),
@@ -52,6 +52,7 @@ namespace API.Service
 
 
         }
-    
+
+
     }
 }
