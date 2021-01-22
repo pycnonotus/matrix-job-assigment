@@ -27,18 +27,29 @@ namespace Data
 
         }
         /// <summary>
-        /// Add a new hero to a trainer
+        /// Add a new hero to the SQL
         /// </summary>
-        public async Task AddHero(AddHeroDto addHeroDto, string userName)
+        public async Task AddHero(AddHeroDto addHeroDto, string trainerId)
         {
+            if (addHeroDto is null)
+            {
+                throw new ArgumentNullException(nameof(addHeroDto));
+            }
+
+            if (string.IsNullOrEmpty(trainerId))
+            {
+                throw new ArgumentException($"'{nameof(trainerId)}' cannot be null or empty.", nameof(trainerId));
+            }
             //TODO make it better
 
-            var username = await userRepository.GetUserByUsernameAsync(userName);
             var hero = mapper.Map<Hero>(addHeroDto);
-            username.UserHeros.Add(hero);
+            hero.TrainerId = trainerId;
+            await context.UserHeros.AddAsync(hero);
+            // var username = await userRepository.GetUserByUsernameAsync(userName);
+            // username.UserHeros.Add(hero);
         }
         /// <summary>
-        /// get entity of hero (DbContext follows it changes)
+        /// get entity of hero from sql (DbContext follows it changes)
         /// </summary>
         /// <param name="heroId"></param>
         /// <returns></returns>
@@ -49,14 +60,17 @@ namespace Data
             .SingleOrDefaultAsync(x => x.Id == heroId);
         }
         /// <summary>
-        ///  Pulling all the heros of the the trainer, and how much each hero is trained today
+        ///  Pulling all the heros of the the trainer from sql, and how much each hero did train today
         /// </summary>
         public async Task<IEnumerable<HeroDto>> GetAllHerosDto(string trainerId)
         {
-            if (String.IsNullOrEmpty(trainerId)) throw new NullReferenceException("trainerId is not defined");
+            if (string.IsNullOrEmpty(trainerId))
+            {
+                throw new ArgumentException($"'{nameof(trainerId)}' cannot be null or empty.", nameof(trainerId));
+            }
             return await context.UserHeros.Where(x => x.TrainerId == trainerId)
             .Include(x => x.TrainHistory)
-            .ProjectTo<HeroDto>(mapper.ConfigurationProvider).ToListAsync();
+            .ProjectTo<HeroDto>(mapper.ConfigurationProvider).OrderBy(x => x.CuretPower).AsNoTracking().ToListAsync();
         }
         /// <summary>
         ///  set the hero current power to 1.00 ~ 1.10 times of it.
@@ -64,6 +78,11 @@ namespace Data
         /// <param name="hero">Hero to train</param>
         public void TainHero(Hero hero)
         {
+            if (hero is null)
+            {
+                throw new ArgumentNullException(nameof(hero));
+            }
+
             hero.CuretPower *= GetRandomTrainScalar();
             hero.TrainHistory.Add(new Training());
         }

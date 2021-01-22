@@ -16,7 +16,7 @@ namespace Data
         }
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
-            return await context.Users.Include(x => x.UserHeros)
+            return await context.Users
             .SingleOrDefaultAsync(x => x.NormalizedUserName == username.ToUpper());
         }
     }

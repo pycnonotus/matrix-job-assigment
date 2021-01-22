@@ -25,13 +25,5 @@ namespace Entities
 
         public ICollection<Training>? TrainHistory { get; set; }
 
-
-
-
-
-
-
-
-
     }
 }

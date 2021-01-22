@@ -23,7 +23,7 @@ namespace Controllers
         [HttpPost]
         public async Task<IActionResult> AddHero(AddHeroDto addHeroDto)
         {
-            await unitOfWork.HeroRepository.AddHero(addHeroDto, User.GetUsername());
+            await unitOfWork.HeroRepository.AddHero(addHeroDto, User.GetUserId());
             return await unitOfWork.ApplyChanges() ? Ok()
             : throw new HttpRequestException(" an unknown error has accorded while adding a new hero ");
 

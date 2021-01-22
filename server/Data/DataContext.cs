@@ -26,11 +26,7 @@ namespace Data
 
             builder.Entity<Hero>().HasMany(x => x.TrainHistory)
             .WithOne(x => x.Hero).HasForeignKey(x => x.HeroId);
-
-
         }
     }
-    /*
-            
-    */
+  
 }
