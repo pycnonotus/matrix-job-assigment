@@ -40,13 +40,11 @@ namespace Data
             {
                 throw new ArgumentException($"'{nameof(trainerId)}' cannot be null or empty.", nameof(trainerId));
             }
-            //TODO make it better
 
             var hero = mapper.Map<Hero>(addHeroDto);
             hero.TrainerId = trainerId;
             await context.UserHeros.AddAsync(hero);
-            // var username = await userRepository.GetUserByUsernameAsync(userName);
-            // username.UserHeros.Add(hero);
+    
         }
         /// <summary>
         /// get entity of hero from sql (DbContext follows it changes)

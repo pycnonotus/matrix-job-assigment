@@ -46,6 +46,9 @@ namespace api
                     logging.ClearProviders();
                     logging.AddConfiguration(context.Configuration.GetSection("Logging"));
                     logging.AddConsole();
+                    logging.AddDebug();
+                    logging.AddEventSourceLogger();
+                    logging.AddNLog();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
