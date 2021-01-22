@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -24,28 +26,48 @@ namespace Data
             this.userRepository = new UserRepository(context, mapper);
 
         }
+        /// <summary>
+        /// Add a new hero to a trainer
+        /// </summary>
         public async Task AddHero(AddHeroDto addHeroDto, string userName)
         {
+            //TODO make it better
+
             var username = await userRepository.GetUserByUsernameAsync(userName);
             var hero = mapper.Map<Hero>(addHeroDto);
             username.UserHeros.Add(hero);
         }
-
-        public async Task<IEnumerable<HeroDto>> GetAllHeros(string trainerId)
+        /// <summary>
+        /// get entity of hero (DbContext follows it changes)
+        /// </summary>
+        /// <param name="heroId"></param>
+        /// <returns></returns>
+        public async Task<Hero> GetHero(Guid heroId)
         {
-            Console.WriteLine(trainerId);
-            var queery = await context.UserHeros.Where(x => x.TrainerId == trainerId)
-            .ProjectTo<HeroDto>(mapper.ConfigurationProvider).AsQueryable().ToListAsync();
-
-            return queery;
+            return await context.UserHeros.
+            Include(x => x.TrainHistory.Where(y => y.Date == DateTime.Today))
+            .SingleOrDefaultAsync(x => x.Id == heroId);
         }
-        public async Task TainHero(Guid heroId)
+        /// <summary>
+        ///  Pulling all the heros of the the trainer, and how much each hero is trained today
+        /// </summary>
+        public async Task<IEnumerable<HeroDto>> GetAllHerosDto(string trainerId)
         {
-            // var hero = await context.UserHeros.FirstOrDefaultAsync(x => x.Id.Equals(heroId));
-            var hero = await context.UserHeros.FindAsync(heroId);
+            if (String.IsNullOrEmpty(trainerId)) throw new NullReferenceException("trainerId is not defined");
+            return await context.UserHeros.Where(x => x.TrainerId == trainerId)
+            .Include(x => x.TrainHistory)
+            .ProjectTo<HeroDto>(mapper.ConfigurationProvider).ToListAsync();
+        }
+        /// <summary>
+        ///  set the hero current power to 1.00 ~ 1.10 times of it.
+        /// </summary>
+        /// <param name="hero">Hero to train</param>
+        public void TainHero(Hero hero)
+        {
             hero.CuretPower *= GetRandomTrainScalar();
+            hero.TrainHistory.Add(new Training());
         }
-        private double GetRandomTrainScalar()
+        private static double GetRandomTrainScalar()
         {
             Random r = new();
             var rate = (100.0 + r.Next(0, 10)) / 100;

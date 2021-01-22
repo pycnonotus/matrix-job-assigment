@@ -54,7 +54,6 @@ namespace Controllers
 
             };
             return Ok(userDto);
-
         }
         [HttpPost("login")]
         public async Task<ActionResult<LoginDto>> Login(LoginDto loginDto)
@@ -63,7 +62,6 @@ namespace Controllers
             if (login == null)
             {
                 return Unauthorized("Wrong Username of Password");
-                // we don't want to indicate the user if the password or username are wrong bc' security 
             }
 
             var loginAtempt =

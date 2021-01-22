@@ -13,6 +13,7 @@ import { HerosComponent } from './heros/heros.component';
 import { HeroMiniCardComponent } from './heros/hero-mini-card/hero-mini-card.component';
 import { HeroCrateComponent } from './heros/hero-crate/hero-crate.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    TimeagoModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

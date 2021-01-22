@@ -11,6 +11,7 @@ namespace Dto
         public string SuitColor { get; set; }
         public double StartingPower { get; set; }
         public double CuretPower { get; set; }
+        public int TrainedTodayTimes { get; set; }
 
     }
 }

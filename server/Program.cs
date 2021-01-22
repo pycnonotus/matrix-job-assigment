@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
+using NLog.Web;
 
 namespace api
 {
@@ -17,7 +19,6 @@ namespace api
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            //befor we start the main server we want to check if there any migration
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
             try
@@ -38,6 +39,7 @@ namespace api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

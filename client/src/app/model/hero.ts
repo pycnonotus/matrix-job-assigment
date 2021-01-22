@@ -1,8 +1,9 @@
 export interface Hero {
   id: string;
   name: string;
-  firstTrained: Date;
+  firstTraining: Date;
   suitColor: string;
   startingPower: number;
   curetPower: number;
+  trainedTodayTimes: number;
 }

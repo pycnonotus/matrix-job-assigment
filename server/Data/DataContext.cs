@@ -21,7 +21,12 @@ namespace Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<AppUser>().HasMany(x => x.UserHeros).WithOne(x => x.Trainer).HasForeignKey(x => x.TrainerId);
+            builder.Entity<AppUser>().HasMany(x => x.UserHeros)
+            .WithOne(x => x.Trainer).HasForeignKey(x => x.TrainerId);
+
+            builder.Entity<Hero>().HasMany(x => x.TrainHistory)
+            .WithOne(x => x.Hero).HasForeignKey(x => x.HeroId);
+
 
         }
     }

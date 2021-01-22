@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Entities
@@ -12,7 +13,6 @@ namespace Entities
         public string Name { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? FirstTraining { get; set; } = null;
         public string SuitColor { get; set; }
         [Required]
         public double StartingPower { get; set; }
@@ -21,6 +21,7 @@ namespace Entities
         [Required]
 
         public String TrainerId { get; set; }
+        public ICollection<Training>? TrainHistory { get; set; }
 
 
 
