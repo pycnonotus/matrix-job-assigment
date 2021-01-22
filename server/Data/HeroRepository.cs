@@ -42,8 +42,10 @@ namespace Data
             }
             //TODO make it better
 
+            var hero = mapper.Map<Hero>(addHeroDto);
+            hero.TrainerId = trainerId;
+            await context.UserHeros.AddAsync(hero);
             // var username = await userRepository.GetUserByUsernameAsync(userName);
-            // var hero = mapper.Map<Hero>(addHeroDto);
             // username.UserHeros.Add(hero);
         }
         /// <summary>
@@ -62,13 +64,13 @@ namespace Data
         /// </summary>
         public async Task<IEnumerable<HeroDto>> GetAllHerosDto(string trainerId)
         {
-            if (trainerId is null)
+            if (string.IsNullOrEmpty(trainerId))
             {
-                throw new ArgumentNullException(nameof(trainerId));
+                throw new ArgumentException($"'{nameof(trainerId)}' cannot be null or empty.", nameof(trainerId));
             }
             return await context.UserHeros.Where(x => x.TrainerId == trainerId)
             .Include(x => x.TrainHistory)
-            .ProjectTo<HeroDto>(mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
+            .ProjectTo<HeroDto>(mapper.ConfigurationProvider).OrderBy(x => x.CuretPower).AsNoTracking().ToListAsync();
         }
         /// <summary>
         ///  set the hero current power to 1.00 ~ 1.10 times of it.
