@@ -5,11 +5,14 @@ using Entities;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Dto;
 
 namespace Data
 {
     public class DataContext : IdentityDbContext<AppUser>
     {
+        public DbSet<Hero> UserHeros { get; set; }
+
         public DataContext(DbContextOptions options) : base(options)
         {
 

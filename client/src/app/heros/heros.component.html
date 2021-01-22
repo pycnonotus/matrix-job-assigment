@@ -1,0 +1,11 @@
+<div class="row">
+    <button mat-button color="primary" (click)="openCreateHeroDialog()">add a new  hero</button>
+    <div class="">
+        <h2>My Heros:</h2>
+        <div class="hero-list">
+            <div class="hero-item" *ngFor="let hero of heroService.heros$| async">
+                <app-hero-mini-card [hero]="hero"></app-hero-mini-card>
+            </div>
+        </div>
+    </div>
+</div>

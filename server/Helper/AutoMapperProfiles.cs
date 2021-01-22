@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using AutoMapper;
 using Dto;
 using Entities;
@@ -11,6 +12,7 @@ namespace API.Helper
         public AutoMapperProfiles()
         {
             CreateMap<RegisterDto, AppUser>();
+            CreateMap<Hero, HeroDto>().ReverseMap();
             CreateMap<AddHeroDto, Hero>().ForMember(d => d.CuretPower, o => o.MapFrom(s => s.Power))
             .ForMember(d => d.StartingPower, o => o.MapFrom(s => s.Power));
         }

@@ -1,0 +1,13 @@
+<div class="">
+    <div class="line">
+        <div><strong>name</strong> {{ hero?.name }}</div>
+        <div><strong>first trained at</strong> {{ getTrainDateString() }}</div>
+        <div><strong>Suit colors</strong> {{ hero?.suitColor }}</div>
+        <div><strong>Starting power</strong> {{ hero?.startingPower }}</div>
+        <div><strong>Current power</strong> {{ hero?.curetPower }}</div>
+        <div class="div"><strong>train</strong>
+            <button mat-flat-button color="primary">Train</button>
+            <p>0/5</p>
+        </div>
+    </div>
+</div>

@@ -17,7 +17,6 @@ namespace Data
         public async Task<bool> ApplyChanges()
         {
             return await this.context.SaveChangesAsync() > 0;
-
         }
     }
 }
