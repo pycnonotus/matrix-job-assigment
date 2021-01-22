@@ -1,5 +1,5 @@
-using API.Helper;
-using API.Service;
+using Helper;
+using Service;
 using AutoMapper;
 using Data;
 using Interface;

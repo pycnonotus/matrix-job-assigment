@@ -21,6 +21,8 @@ namespace Entities
         [Required]
 
         public String TrainerId { get; set; }
+#nullable enable
+
         public ICollection<Training>? TrainHistory { get; set; }
 
 

@@ -7,7 +7,7 @@ using Dto;
 using Entities;
 using Extensions;
 
-namespace API.Helper
+namespace Helper
 {
     public class AutoMapperProfiles : Profile
     {
@@ -22,7 +22,7 @@ namespace API.Helper
             CreateMap<AddHeroDto, Hero>().ForMember(d => d.CuretPower, o => o.MapFrom(s => s.Power))
             .ForMember(d => d.StartingPower, o => o.MapFrom(s => s.Power));
         }
-
+#nullable enable
         private static DateTime? GetMinDate(IEnumerable<DateTime>? dates)
         {
             if (dates != null && dates.Any())

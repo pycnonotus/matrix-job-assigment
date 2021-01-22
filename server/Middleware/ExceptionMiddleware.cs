@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -8,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace API.Middleware
+namespace Middleware
 {
     /// <summary>
     /// Handling an catuthed exptions, and filtring them from geting to the client
@@ -28,32 +30,24 @@ namespace API.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
+            string logMsg = "[Request:]\t";
+            logMsg += "\n" + "[Path:]\t" + context.Request.Path;
+            logMsg += "\n" + "[Method:]\t" + context.Request.Method;
+            logMsg += "\n" + "[TOKEN:]\t" + context.Request.Headers["Authorization"];
+            var timer = new Stopwatch();
+            timer.Start();
+
+
+            this.logger.LogInformation(LoggingId.GenrealHttpRequestInfo, logMsg);
+
             try
-            {
+            {   
                 await this.next(context);
             }
-            catch (HttpRequestException exh)
+
+            catch (Exception ex) 
             {
-                this.logger.LogError(exh, exh.Message);
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int)(exh.StatusCode ?? HttpStatusCode.InternalServerError);
-                var response = this.env.IsDevelopment() ?
-                    new ApiException(context.Response.StatusCode,
-                        exh.Message, exh.StackTrace?.ToString()) :
-                    new ApiException(context.Response.StatusCode, "Unknown Error");
-
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
-
-                var json = JsonSerializer.Serialize(response, options);
-
-                await context.Response.WriteAsync(json);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, ex.Message);
+                this.logger.LogError(LoggingId.GenrealServerError, ex, ex.Message);
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 var response = this.env.IsDevelopment() ?
@@ -71,6 +65,10 @@ namespace API.Middleware
                 await context.Response.WriteAsync(json);
 
             }
+            timer.Stop();
+            this.logger.LogInformation(LoggingId.GenrealTrackingInfo, "The request took '{0}' ms", timer.ElapsedMilliseconds);
+
+
         }
 
     }

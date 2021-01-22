@@ -11,15 +11,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Service
+namespace Service
 {
     public class TokenService : ITokenService
     {
         private readonly SymmetricSecurityKey key;
-        private readonly UserManager<AppUser> userManager;
-        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
+        public TokenService(IConfiguration config)
         {
-            this.userManager = userManager;
             this.key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(config["TokenKey"])
             );
