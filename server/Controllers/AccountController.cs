@@ -12,9 +12,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Controllers
 {
-    /// <summary>
-    /// Controller for manging the  trainer accounut (singup, login)
-    /// </summary>
     public class AccountController : BaseApiController
     {
         private readonly UserManager<AppUser> userManager;
@@ -36,7 +33,7 @@ namespace Controllers
         {
             var isUserExists = await userManager.Users.Where(x => x.NormalizedUserName == registerDto.Username.ToUpper())
                .Select(x => 1)
-               .FirstOrDefaultAsync(); // if no user is found than the query shall return the default value of int (0)
+               .FirstOrDefaultAsync(); 
             if (isUserExists != 0)
             {
                 return BadRequest("This user already exists");

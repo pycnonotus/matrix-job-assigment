@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Extensions;
-using API.Middleware;
 using Extensions;
+using Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,7 +40,7 @@ namespace api
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware<ExceptionMiddleware>();
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection(); uncomment this line if reverse proxy or other thing is not takeing care to redirect requests
 
             app.UseRouting();
             app.UseCors(

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using Errors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
 using NLog.Extensions.Logging;
 using NLog.Web;
 
@@ -29,7 +31,7 @@ namespace api
             catch (Exception ex)
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "Failed to migrate");
+                logger.LogError(LoggingId.MigrationError, ex, "Failed to migrate");
             }
 
             host.Run();
@@ -39,7 +41,12 @@ namespace api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-
+                .ConfigureLogging((context, logging) =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConfiguration(context.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
