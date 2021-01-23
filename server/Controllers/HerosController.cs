@@ -9,9 +9,12 @@ using Data;
 using Dto;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers
-{
+{   
+     [Authorize]
+
     public class HerosController : BaseApiController
     {
         private readonly UnitOfWork unitOfWork;

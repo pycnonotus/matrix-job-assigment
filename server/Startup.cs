@@ -40,7 +40,7 @@ namespace api
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware<ExceptionMiddleware>();
-            // app.UseHttpsRedirection(); uncomment this line if reverse proxy or other thing is not takeing care to redirect requests
+            app.UseHttpsRedirection(); //uncomment this line if reverse proxy or other thing is not takeing care to redirect requests
 
             app.UseRouting();
             app.UseCors(
@@ -50,6 +50,8 @@ namespace api
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

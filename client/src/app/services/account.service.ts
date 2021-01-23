@@ -35,6 +35,8 @@ export class AccountService {
         this.router.navigate(['/heros']);
       },
       (error) => {
+        console.log('failed to login');
+
         this.currentUserSource.error(error);
       }
     );
