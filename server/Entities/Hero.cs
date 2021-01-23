@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Attribute;
 
 namespace Entities
 {
@@ -11,6 +12,7 @@ namespace Entities
         [Required]
         public string Name { get; set; }
         [Required]
+        [Ability]
         public string Ability { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

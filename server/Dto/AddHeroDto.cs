@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Attribute;
 
 namespace Dto
 {
@@ -11,6 +12,7 @@ namespace Dto
         [Required]
         public double Power { get; set; }
         [Required]
+        [Ability]
         public string Ability { get; set; }
 
 
