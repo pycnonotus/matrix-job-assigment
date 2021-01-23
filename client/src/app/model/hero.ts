@@ -7,3 +7,8 @@ export interface Hero {
   curetPower: number;
   trainedTodayTimes: number;
 }
+export interface HeroCreate {
+  name: string;
+  suitColor: string;
+  power: number;
+}

@@ -29,7 +29,7 @@ namespace Data
         /// <summary>
         /// Add a new hero to the SQL
         /// </summary>
-        public async Task AddHero(AddHeroDto addHeroDto, string trainerId)
+        public async Task<HeroDto> AddHero(AddHeroDto addHeroDto, string trainerId)
         {
             if (addHeroDto is null)
             {
@@ -44,13 +44,12 @@ namespace Data
             var hero = mapper.Map<Hero>(addHeroDto);
             hero.TrainerId = trainerId;
             await context.UserHeros.AddAsync(hero);
-    
+            return mapper.Map<HeroDto>(hero);
+
         }
         /// <summary>
-        /// get entity of hero from sql (DbContext follows it changes)
+        /// get an entity of a hero from the sql (DbContext follows it changes)
         /// </summary>
-        /// <param name="heroId"></param>
-        /// <returns></returns>
         public async Task<Hero> GetHero(Guid heroId)
         {
             return await context.UserHeros.
@@ -58,7 +57,8 @@ namespace Data
             .SingleOrDefaultAsync(x => x.Id == heroId);
         }
         /// <summary>
-        ///  Pulling all the heros of the the trainer from sql, and how much each hero did train today
+        ///  Pulling all the heros of the trainer from the sql,
+        ///  and how much each hero has trained today
         /// </summary>
         public async Task<IEnumerable<HeroDto>> GetAllHerosDto(string trainerId)
         {
@@ -71,7 +71,7 @@ namespace Data
             .ProjectTo<HeroDto>(mapper.ConfigurationProvider).OrderBy(x => x.CuretPower).AsNoTracking().ToListAsync();
         }
         /// <summary>
-        ///  set the hero current power to 1.00 ~ 1.10 times of it.
+        ///  set the hero current power to 1.00 ~ 1.10 times of its current power.
         /// </summary>
         /// <param name="hero">Hero to train</param>
         public void TainHero(Hero hero)

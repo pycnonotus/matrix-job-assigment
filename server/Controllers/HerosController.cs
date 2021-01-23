@@ -21,10 +21,10 @@ namespace Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddHero(AddHeroDto addHeroDto)
+        public async Task<ActionResult<HeroDto>> AddHero(AddHeroDto addHeroDto)
         {
-            await unitOfWork.HeroRepository.AddHero(addHeroDto, User.GetUserId());
-            return await unitOfWork.ApplyChanges() ? Ok()
+            var hero = await unitOfWork.HeroRepository.AddHero(addHeroDto, User.GetUserId());
+            return await unitOfWork.ApplyChanges() ? Ok(hero)
             : throw new HttpRequestException(" an unknown error has accorded while adding a new hero ");
 
         }
@@ -42,7 +42,7 @@ namespace Controllers
                 return BadRequest("A hero can't train more then 5 times a day");
             }
             unitOfWork.HeroRepository.TainHero(hero);
-            return await unitOfWork.ApplyChanges() ? Ok()
+            return await unitOfWork.ApplyChanges() ? Ok(hero.CuretPower)
                 : throw new HttpRequestException(" an unknown error has accorded while training a hero");
             
         }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../model/user';
@@ -10,8 +11,8 @@ import { User } from '../model/user';
 export class AccountService {
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
-  private currentUserSource = new ReplaySubject<User>(1);
+  constructor(private http: HttpClient, private router: Router) {}
+  private currentUserSource = new ReplaySubject<User | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
   register(userRegister: { username: string; password: string }): void {
@@ -19,6 +20,7 @@ export class AccountService {
     const observable = this.http.post<User>(url, userRegister).subscribe(
       (res) => {
         this.setUser(res);
+        this.router.navigate(['/heros']);
       },
       (error) => {
         this.currentUserSource.error(error);
@@ -27,9 +29,15 @@ export class AccountService {
   }
   public login(user: { username: string; password: string }): void {
     const url = this.baseUrl + 'account/login';
-    this.http.post<User>(url, user).subscribe((res) => {
-      this.setUser(res);
-    });
+    this.http.post<User>(url, user).subscribe(
+      (res) => {
+        this.setUser(res);
+        this.router.navigate(['/heros']);
+      },
+      (error) => {
+        this.currentUserSource.error(error);
+      }
+    );
   }
 
   public setUser(user: User): void {
@@ -43,5 +51,9 @@ export class AccountService {
   private getDecodedToken(token: string): any {
     return JSON.parse(atob(token.split('.')[1]));
   }
-
+  logout(): void {
+    localStorage.removeItem('user');
+    this.currentUserSource.next(null);
+    this.router.navigate(['/']);
+  }
 }

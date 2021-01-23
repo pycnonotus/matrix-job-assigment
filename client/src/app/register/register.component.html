@@ -3,7 +3,7 @@
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="Placeholder" formControlName="username" required>
+                <input matInput formControlName="username" required>
                 <mat-icon matSuffix>account_circle</mat-icon>
                 <mat-error *ngIf="registerForm.controls['username'].invalid">
                     <div *ngIf="registerForm.controls['username'].hasError('required')">
@@ -18,7 +18,7 @@
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput placeholder="Placeholder" formControlName="password" required>
+                <input matInput type="password" (keyup)="triggerPassMatch()" formControlName="password" required>
                 <mat-icon matSuffix>lock</mat-icon>
                 <mat-error *ngIf="registerForm.controls['password'].invalid">
                     <div *ngIf="registerForm.controls['password'].hasError('required')">
@@ -38,7 +38,7 @@
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Password Confirm</mat-label>
-                <input matInput placeholder="Placeholder" formControlName="confirmPassword" required>
+                <input matInput type="password" formControlName="confirmPassword" required>
                 <mat-icon matSuffix>lock</mat-icon>
                 <mat-error *ngIf="registerForm.controls['confirmPassword'].invalid">
                     Passwords Don't Match

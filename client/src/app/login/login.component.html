@@ -3,17 +3,21 @@
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="Placeholder" [(ngModel)]="model.username" name="username">
+                <input required matInput [(ngModel)]="model.username" name="username">
                 <mat-icon matSuffix>account_circle</mat-icon>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput placeholder="Placeholder" [(ngModel)]="model.password" name="password">
+                <input required matInput type="password" [(ngModel)]="model.password" name="password">
                 <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="failedTry">
+                    Wrong username or password
+                </mat-error>
             </mat-form-field>
         </p>
+
         <button mat-raised-button color="primary">Login</button>
         <button type="button" mat-button color="primary" routerLink="/register">Register</button>
 

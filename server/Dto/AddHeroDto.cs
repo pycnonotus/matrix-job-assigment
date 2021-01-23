@@ -10,6 +10,8 @@ namespace Dto
         public string SuitColor { get; set; }
         [Required]
         public double Power { get; set; }
+        [Required]
+        public string Ability { get; set; }
 
 
 

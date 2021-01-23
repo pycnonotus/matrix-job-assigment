@@ -10,7 +10,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HerosComponent } from './heros/heros.component';
-import { HeroMiniCardComponent } from './heros/hero-mini-card/hero-mini-card.component';
 import { HeroCrateComponent } from './heros/hero-crate/hero-crate.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { TimeagoModule } from 'ngx-timeago';
@@ -22,7 +21,6 @@ import { TimeagoModule } from 'ngx-timeago';
     LoginComponent,
     RegisterComponent,
     HerosComponent,
-    HeroMiniCardComponent,
     HeroCrateComponent,
   ],
   imports: [

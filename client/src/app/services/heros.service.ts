@@ -1,26 +1,60 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Hero } from '../model/hero';
+import { Hero, HeroCreate } from '../model/hero';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HerosService {
   private baseUrl = environment.apiUrl;
-  herosData: Hero[] = [];
+  private herosData: Hero[] = [];
   private heros = new ReplaySubject<Hero[]>(1);
   heros$ = this.heros.asObservable();
 
   loadHeros() {
     const url = this.baseUrl + 'heros';
     this.http.get<Hero[]>(url).subscribe((res) => {
-      console.log(res);
+      this.herosData = res;
+      console.log('hs load');
 
-      this.heros.next(res);
+      this.heros.next(this.herosData);
     });
   }
-  loadHero() {}
+  addHero(hero: HeroCreate): void {
+    const url = this.baseUrl + 'heros';
+    this.http.post<Hero>(url, hero).subscribe((res) => {
+      if (res) {
+        console.log(this.herosData);
+        this.herosData.push(res);
+        this.herosData = this.herosData.sort(
+          (a, b) => a.curetPower - b.curetPower
+        );
+        console.log(this.herosData);
+
+        this.heros.next(this.herosData);
+      }
+    });
+  }
+
+  trainHero(heroId: string): void {
+    const url = this.baseUrl + 'heros/' + heroId;
+    this.http.post<number>(url, {}).subscribe((res: number) => {
+      const hero = this.herosData.find((x) => x.id === heroId);
+      if (hero) {
+        hero.curetPower = res;
+        hero.trainedTodayTimes++;
+        if (!hero.firstTraining) {
+          hero.firstTraining = new Date();
+        }
+        this.herosData = this.herosData.sort(
+          (a, b) => a.curetPower - b.curetPower
+        );
+        this.heros.next(this.herosData);
+      }
+    });
+  }
+  loadHero(): void {}
   constructor(private http: HttpClient) {}
 }

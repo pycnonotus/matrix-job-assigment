@@ -8,9 +8,10 @@ namespace Entities
     {
         [Required]
         public Guid Id { get; set; }
-        //to do add abilty after i check with Rauvan if it a list or a "boolean" 
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string Ability { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public string SuitColor { get; set; }
@@ -24,6 +25,7 @@ namespace Entities
 #nullable enable
 
         public ICollection<Training>? TrainHistory { get; set; }
+
 
     }
 }

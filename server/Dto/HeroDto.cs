@@ -6,6 +6,7 @@ namespace Dto
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Ability { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? FirstTraining { get; set; } = null;
         public string SuitColor { get; set; }

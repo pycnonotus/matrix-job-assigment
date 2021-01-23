@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       '',
       [Validators.required, Validators.minLength(8), strongPassword()],
     ],
-    confirmPassword: ['', [Validators.required, matchValues('password')]],
+    confirmPassword: ['', [Validators.required, matchValues('password')]], //TODO fix this bug
   });
   accountSubscription: Subscription | undefined;
 
@@ -34,7 +34,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.accountSubscription?.unsubscribe();
   }
-
+  triggerPassMatch(): void {
+    this.registerForm.controls['confirmPassword'].updateValueAndValidity();
+  }
   ngOnInit(): void {
     this.accountSubscription = this.accountService.currentUser$.subscribe(
       (user) => {},
@@ -46,12 +48,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
           console.log('taken');
 
           this.registerForm.get('username')?.setErrors({ userTaken: true });
+
         }
       }
     );
   }
 
-  onSubmit() {
+  onSubmit(): void {
     console.log(this.registerForm);
     if (!this.registerForm.valid) {
       return;

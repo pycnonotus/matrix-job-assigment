@@ -1,8 +1,29 @@
-:host {}
+:host {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
 
 .row {
     background-color: white;
     padding: 1em;
-    height: 100%;
     box-sizing: border-box;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+.table-wrap {
+    overflow: auto;
+    height: 500px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
