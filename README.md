@@ -12,7 +12,7 @@
 
 3. First trained is the first training a hero **has** been trained by a trainer (heroCrateDate != firstTrainedDate)
 
-4. If hero has not trained yet, no date will show up at the trained at cell.
+4. If hero has not trained yet, no date will show up at the trained cell.
 
 5. For user authentication I use ASP.NET Identity and JWT.
 
