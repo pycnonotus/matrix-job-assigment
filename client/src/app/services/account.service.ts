@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Route, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../model/user';
@@ -12,7 +13,7 @@ export class AccountService {
   private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router) {}
-  private currentUserSource = new ReplaySubject<User | null>(1);
+  private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
   register(userRegister: { username: string; password: string }): void {
@@ -55,7 +56,7 @@ export class AccountService {
   }
   logout(): void {
     localStorage.removeItem('user');
-    this.currentUserSource.next(null);
+    this.currentUserSource.next(null!);
     this.router.navigate(['/']);
   }
 }
