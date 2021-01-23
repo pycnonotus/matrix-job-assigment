@@ -17,8 +17,6 @@ export class HerosService {
     const url = this.baseUrl + 'heros';
     this.http.get<Hero[]>(url).subscribe((res) => {
       this.herosData = res;
-      console.log('hs load');
-
       this.heros.next(this.herosData);
     });
   }
@@ -26,13 +24,10 @@ export class HerosService {
     const url = this.baseUrl + 'heros';
     this.http.post<Hero>(url, hero).subscribe((res) => {
       if (res) {
-        console.log(this.herosData);
         this.herosData.push(res);
         this.herosData = this.herosData.sort(
           (a, b) => a.curetPower - b.curetPower
         );
-        console.log(this.herosData);
-
         this.heros.next(this.herosData);
       }
     });

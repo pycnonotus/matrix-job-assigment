@@ -61,10 +61,6 @@ export class HerosComponent implements AfterViewInit, OnDestroy, OnInit {
   }
   openCreateHeroDialog(): void {
     const dialogRef = this.dialog.open(HeroCrateComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-    });
   }
   logout(): void {
     this.accountServices.logout();

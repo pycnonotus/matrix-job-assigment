@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       '',
       [Validators.required, Validators.minLength(8), strongPassword()],
     ],
-    confirmPassword: ['', [Validators.required, matchValues('password')]], //TODO fix this bug
+    confirmPassword: ['', [Validators.required, matchValues('password')]],
   });
   accountSubscription: Subscription | undefined;
 
@@ -41,11 +41,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.accountSubscription = this.accountService.currentUser$.subscribe(
       (user) => {},
       (error) => {
-        console.log('here');
-        console.log(error.error);
+
 
         if (error.error === 'This user already exists') {
-          console.log('taken');
 
           this.registerForm.get('username')?.setErrors({ userTaken: true });
 
@@ -55,7 +53,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    console.log(this.registerForm);
     if (!this.registerForm.valid) {
       return;
     }
