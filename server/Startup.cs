@@ -40,7 +40,7 @@ namespace api
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware<ExceptionMiddleware>();
-            app.UseHttpsRedirection(); //uncomment this line if reverse proxy or other thing is not takeing care to redirect requests
+            //app.UseHttpsRedirection(); // for my prodaction I realay nginx to redirect to https so have no real need for this
 
             app.UseRouting();
             app.UseCors(
