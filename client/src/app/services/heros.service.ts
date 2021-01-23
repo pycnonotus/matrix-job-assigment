@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Subscription } from 'rxjs';
+import { Observable, Observer, ReplaySubject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Hero, HeroCreate } from '../model/hero';
 
@@ -20,17 +21,19 @@ export class HerosService {
       this.heros.next(this.herosData);
     });
   }
-  addHero(hero: HeroCreate): void {
+  addHero(hero: HeroCreate): Observable<void> {
     const url = this.baseUrl + 'heros';
-    this.http.post<Hero>(url, hero).subscribe((res) => {
-      if (res) {
-        this.herosData.push(res);
-        this.herosData = this.herosData.sort(
-          (a, b) => a.curetPower - b.curetPower
-        );
-        this.heros.next(this.herosData);
-      }
-    });
+    return this.http.post<Hero>(url, hero).pipe(
+      map((res) => {
+        if (res) {
+          this.herosData.push(res);
+          this.herosData = this.herosData.sort(
+            (a, b) => a.curetPower - b.curetPower
+          );
+          this.heros.next(this.herosData);
+        }
+      })
+    );
   }
 
   trainHero(heroId: string): void {

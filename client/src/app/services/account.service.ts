@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../model/user';
 
@@ -16,30 +17,23 @@ export class AccountService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
-  register(userRegister: { username: string; password: string }): void {
+  register(userRegister: {
+    username: string;
+    password: string;
+  }): Observable<any> {
     const url = this.baseUrl + 'account/register';
-    const observable = this.http.post<User>(url, userRegister).subscribe(
-      (res) => {
-        this.setUser(res);
-        this.router.navigate(['/heros']);
-      },
-      (error) => {
-        this.currentUserSource.error(error);
-      }
-    );
+    return this.http.post<User>(url, userRegister);
   }
-  public login(user: { username: string; password: string }): void {
+  public login(user: { username: string; password: string }): Observable<any> {
     const url = this.baseUrl + 'account/login';
-    this.http.post<User>(url, user).subscribe(
-      (res) => {
-        this.setUser(res);
-        this.router.navigate(['/heros']);
-      },
-      (error) => {
-        console.log('failed to login');
-
-        this.currentUserSource.error(error);
-      }
+    return this.http.post<User>(url, user).pipe(
+      map((response: User) => {
+        const user = response;
+        if (user) {
+          this.setUser(user);
+          this.router.navigate(['/heros']);
+        }
+      })
     );
   }
 

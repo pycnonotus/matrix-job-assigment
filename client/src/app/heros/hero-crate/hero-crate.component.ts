@@ -16,6 +16,7 @@ export class HeroCrateComponent implements OnInit {
     power: ['', Validators.required],
     ability: ['',  Validators.required],
   });
+  loading = false;
   constructor(
     private fb: FormBuilder,
     private heroService: HerosService,
@@ -27,11 +28,13 @@ export class HeroCrateComponent implements OnInit {
     if (!this.addHeroForm.valid) {
       return;
     }
+    this.loading = true;
     const name = this.addHeroForm.get('name')?.value;
     const suitColor = this.addHeroForm.get('suitColor')?.value;
     const power = this.addHeroForm.get('power')?.value;
     const ability = this.addHeroForm.get('ability')?.value;
-    this.heroService.addHero({ name, suitColor, power, ability });
-    this.dialogRef.close();
+    this.heroService.addHero({ name, suitColor, power, ability }).subscribe(() => {
+          this.dialogRef.close();
+    });
   }
 }

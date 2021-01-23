@@ -10,22 +10,39 @@ import { AccountService } from '../services/account.service';
 export class LoginComponent implements OnInit, OnDestroy {
   model = { username: '', password: '' };
   failedTry = false;
-  subLogin: Subscription | undefined;
+  subLogin = this.accountService.currentUser$.subscribe(
+    (res) => {},
+    (error) => {
+      console.log(3);
+      this.failedTry = true;
+      this.loading = false;
+    }
+  );
+  loading = false;
 
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
-    this.subLogin = this.accountService.currentUser$.subscribe(
-      (res) => {},
-      (error) => {
-        this.failedTry = true;
-      }
-    );
   }
   ngOnDestroy(): void {
     this.subLogin?.unsubscribe();
   }
+
   login(): void {
-    this.accountService.login(this.model);
+
+    console.log(1);
+    // ;
+    console.log(1.5);
+    console.log('sub:' + this.subLogin.closed);
+
+
+    this.loading = true;
+    this.failedTry = false;
+    this.accountService.login(this.model).subscribe(() => {
+      //nav
+    }, () => {
+         this.loading = false;
+         this.failedTry = true;
+    });
   }
 }

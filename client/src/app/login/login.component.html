@@ -1,5 +1,5 @@
 <div class="form-wrap">
-    <form (ngSubmit)="login()" #loginForm="ngForm">
+    <form (ngSubmit)="login()" #loginForm="ngForm" action="">
         <p>
             <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
@@ -12,13 +12,13 @@
                 <mat-label>Password</mat-label>
                 <input required matInput type="password" [(ngModel)]="model.password" name="password">
                 <mat-icon matSuffix>lock</mat-icon>
-                <mat-error *ngIf="failedTry">
-                    Wrong username or password
-                </mat-error>
+
             </mat-form-field>
         </p>
-
-        <button mat-raised-button color="primary">Login</button>
+        <mat-error *ngIf="failedTry">
+            Wrong username or password
+        </mat-error>
+        <button mat-raised-button color="primary" type="submit">Login</button>
         <button type="button" mat-button color="primary" routerLink="/register">Register</button>
 
 

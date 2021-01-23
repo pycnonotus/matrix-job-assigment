@@ -30,7 +30,7 @@
                 <mat-option value="Defender">Defender</mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-raised-button color="primary" [disabled]="!addHeroForm.valid">Create New Hero</button>
+        <button mat-raised-button color="primary" [disabled]="loading||!addHeroForm.valid">Create New Hero</button>
     </form>
 </div>
 <div mat-dialog-actions>

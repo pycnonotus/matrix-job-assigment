@@ -6,6 +6,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AccountService } from '../services/account.service';
 import { matchValues } from './helpers/validation/matchValues';
@@ -26,10 +27,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     confirmPassword: ['', [Validators.required, matchValues('password')]],
   });
   accountSubscription: Subscription | undefined;
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router
   ) {}
   ngOnDestroy(): void {
     this.accountSubscription?.unsubscribe();
@@ -37,31 +40,30 @@ export class RegisterComponent implements OnInit, OnDestroy {
   triggerPassMatch(): void {
     this.registerForm.controls['confirmPassword'].updateValueAndValidity();
   }
-  ngOnInit(): void {
-    this.accountSubscription = this.accountService.currentUser$.subscribe(
-      (user) => {},
-      (error) => {
-
-
-        if (error.error === 'This user already exists') {
-
-          this.registerForm.get('username')?.setErrors({ userTaken: true });
-
-        }
-      }
-    );
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     if (!this.registerForm.valid) {
       return;
     }
+    this.loading = true;
     const username = this.registerForm.get('username')?.value;
     const password = this.registerForm.get('password')?.value;
     const user = {
       username,
       password,
     };
-    this.accountService.register(user);
+    this.accountService.register(user).subscribe(
+      (user) => {
+        this.accountService.setUser(user);
+        this.router.navigate(['/heros']);
+      },
+      (error) => {
+        if (error.error === 'This user already exists') {
+          this.registerForm.get('username')?.setErrors({ userTaken: true });
+          this.loading = false;
+        }
+      }
+    );
   }
 }
