@@ -1,10 +1,9 @@
 <h1 mat-dialog-title>Add new hero</h1>
 <div mat-dialog-content>
     <form #ngAddHeroForm="ngForm" (submit)="onSubmit()" [formGroup]="addHeroForm">
-
         <mat-form-field appearance="fill">
             <mat-label>Hero's name</mat-label>
-            <input formControlName="name" required matInput>
+            <input formControlName="name" required matInput />
             <mat-error *ngIf="addHeroForm.controls['name'].invalid">
                 Hero's name is a required filled
             </mat-error>
@@ -12,23 +11,27 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Suit colors</mat-label>
-            <input formControlName="suitColor" required matInput>
+            <input formControlName="suitColor" required matInput />
             <mat-error *ngIf="addHeroForm.controls['suitColor'].invalid">
                 Suit colors is a required filled
             </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Power</mat-label>
-            <input formControlName="power" type="number" matInput required>
+            <input formControlName="power" type="number" matInput required />
             <mat-error *ngIf="addHeroForm.controls['power'].invalid">
                 Power is a required filled
             </mat-error>
         </mat-form-field>
-        <button mat-raised-button color="primary">Create New Hero</button>
-
+        <mat-form-field appearance="fill">
+            <mat-label>Ability</mat-label>
+            <mat-select required formControlName="ability">
+                <mat-option value="Attacker">Attacker</mat-option>
+                <mat-option value="Defender">Defender</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="!addHeroForm.valid">Create New Hero</button>
     </form>
-
-
 </div>
 <div mat-dialog-actions>
     <button mat-button mat-dialog-close>close</button>

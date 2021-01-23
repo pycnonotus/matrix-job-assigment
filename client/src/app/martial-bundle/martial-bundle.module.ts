@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatDialogModule,
     MatTableModule,
     MatSortModule,
+    MatSelectModule,
   ],
   exports: [
     MatButtonModule,
@@ -29,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatDialogModule,
     MatTableModule,
     MatSortModule,
+    MatSelectModule,
   ],
 })
 export class MartialBundleModule {}

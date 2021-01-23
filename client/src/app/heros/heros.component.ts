@@ -27,6 +27,7 @@ export class HerosComponent implements AfterViewInit, OnDestroy, OnInit {
 
   displayedColumns: string[] = [
     'name',
+    'ability',
     'firstTraining',
     'suitColor',
     'startingPower',
@@ -47,7 +48,6 @@ export class HerosComponent implements AfterViewInit, OnDestroy, OnInit {
   }
   ngOnInit(): void {
     this.subHeros = this.heroService.heros$.subscribe((res) => {
-
       this.heroData = res;
       if (this.heroTable) {
         this.heroTable.renderRows();

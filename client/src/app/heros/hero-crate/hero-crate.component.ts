@@ -14,6 +14,7 @@ export class HeroCrateComponent implements OnInit {
     name: ['', Validators.required],
     suitColor: ['', Validators.required],
     power: ['', Validators.required],
+    ability: ['',  Validators.required],
   });
   constructor(
     private fb: FormBuilder,
@@ -22,14 +23,15 @@ export class HeroCrateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-  onSubmit() {
+  onSubmit(): void {
     if (!this.addHeroForm.valid) {
       return;
     }
     const name = this.addHeroForm.get('name')?.value;
     const suitColor = this.addHeroForm.get('suitColor')?.value;
     const power = this.addHeroForm.get('power')?.value;
-    this.heroService.addHero({ name, suitColor, power });
+    const ability = this.addHeroForm.get('ability')?.value;
+    this.heroService.addHero({ name, suitColor, power, ability });
     this.dialogRef.close();
   }
 }

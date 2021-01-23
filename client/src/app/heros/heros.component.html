@@ -17,6 +17,10 @@
                     <th mat-header-cell *matHeaderCellDef>Name</th>
                     <td mat-cell *matCellDef="let row">{{ row.name }}</td>
                 </ng-container>
+                <ng-container matColumnDef="ability">
+                    <th mat-header-cell *matHeaderCellDef>Ability</th>
+                    <td mat-cell *matCellDef="let row">{{ row.ability }}</td>
+                </ng-container>
 
                 <ng-container matColumnDef="firstTraining">
                     <th mat-header-cell *matHeaderCellDef>First Trained</th>
